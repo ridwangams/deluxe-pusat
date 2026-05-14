@@ -1,40 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
-
-const String WORKER_URL = "https://deluxe-servers.ridwamarsya.workers.dev";
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await initNotifications();
-  runApp(MyApp());
-}
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = 
-    FlutterLocalNotificationsPlugin();
-
-Future<void> initNotifications() async {
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'deluxe_channel',
-    'Deluxe Teriosh',
-    description: 'Notifikasi dari Deluxe Teriosh App',
-    importance: Importance.high,
-    priority: Priority.high,
-  );
-  
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-  
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-}
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.deluxe.teriosh">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
+    <application
+        android:label="Deluxe Teriosh"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher">
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>}
 
 Future<void> showWAStyleNotification(String title, String message) async {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
